@@ -34,12 +34,10 @@ export function registerSelectors(selectors) {
   })
 }
 
-
 export function reset() {
   _getState = null
   _allSelectors = new Set()
 }
-
 
 export function checkSelector(selector) {
   if (typeof selector === 'string') {
@@ -84,11 +82,9 @@ export function checkSelector(selector) {
   return ret
 }
 
-
 export function getStateWith(stateGetter) {
   _getState = stateGetter
 }
-
 
 function _sumString(str) {
   return Array.from(str.toString()).reduce((sum, char) => char.charCodeAt(0) + sum, 0)
@@ -130,7 +126,45 @@ export function selectorGraph(selectorKey = defaultSelectorKey) {
   for (let selector of _allSelectors) {
     addToGraph(selector)
   }
+
   return graph
+}
+
+export function getAllGoodSelectors() {
+  let listOfSelectorsWithProps = new Set();
+
+  _allSelectors.forEach((selector) => {
+    if(selector.prototype.constructor.toString().search('props') > 0) {
+      listOfSelectorsWithProps.add(selector);
+    }
+  })
+
+  const difference = (setA, setB) => {
+    let _difference = new Set(setA)
+    for (let elem of setB) {
+      _difference.delete(elem)
+    }
+    return _difference
+  }
+  const _allSelectorsWithoutProps = difference(_allSelectors, listOfSelectorsWithProps);
+
+  return _allSelectorsWithoutProps;
+}
+
+export function getAllGoodSelectorsTableData() {
+  const tableData = [];
+  const mapSelectorToCell = (selectors = []) => {
+    return Array.from(selectors).map(selector => ({
+        name: selector.selectorName || '',
+        dependencies: mapSelectorToCell(selector.dependencies),
+        value: selector.value || '',
+        recomputations: selector.recomputations ? selector.recomputations() : null
+      })
+    )
+  }
+
+  tableData.push(...mapSelectorToCell(getAllGoodSelectors()));
+  console.log(tableData);
 }
 
 // hack for devtools
@@ -138,6 +172,8 @@ export function selectorGraph(selectorKey = defaultSelectorKey) {
 if (typeof window !== 'undefined') {
   window.__RESELECT_TOOLS__ = {
     selectorGraph,
-    checkSelector
+    checkSelector,
+    getAllGoodSelectors,
+    getAllGoodSelectorsTableData
   }
 }
