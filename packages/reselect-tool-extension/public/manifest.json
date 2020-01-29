@@ -1,0 +1,10 @@
+{
+  "name": "Hello Extension",
+  "description": "My first chrome extension",
+  "version": "1.0",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "index.html"
+  },
+  "content_security_policy": "script-src 'self' 'sha256-KORxBUPYXAGDQ09wWWzCR8ePA5KvhUrdC1JiOQdW6Pw='; object-src 'self'"
+}
