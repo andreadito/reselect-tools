@@ -1,35 +1,28 @@
 {
   "name": "reselect-tool-extension",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "chrome-extension-async": "3.4.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0"
-  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build:chrome": "cpx 'chrome/**/*.{html,js,json}' build",
+    "build:app": "parcel build src/index.js -d build -o panel.js",
+    "watch:chrome": "cpx 'chrome/**/*.{html,js,json}' build --watch",
+    "watch:app": "parcel watch src/index.js -d build -o panel.js",
+    "build": "concurrently 'yarn build:chrome' 'yarn build:app'",
+    "watch": "concurrently 'yarn watch:chrome' 'yarn watch:app'"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "devextreme": "19.2.5",
+    "devextreme-react": "19.2.5",
+    "react": "16.12.0",
+    "react-dom": "16.12.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "babel-core": "6.26.3",
+    "concurrently": "5.1.0",
+    "cpx": "1.5.0",
+    "parcel-bundler": "1.12.4"
   }
 }

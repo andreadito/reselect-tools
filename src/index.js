@@ -164,7 +164,7 @@ export function getAllGoodSelectorsTableData() {
   }
 
   tableData.push(...mapSelectorToCell(getAllGoodSelectors()));
-  console.log(tableData);
+  return tableData;
 }
 
 // hack for devtools

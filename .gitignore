@@ -12,3 +12,5 @@ flow_test/should_fail/flow-typed/index.js.flow
 flow_test/should_pass/flow-typed/index.js.flow
 .DS_STORE
 /yarn-error.log
+/packages/reselect-tool-extension/.cache/
+/packages/reselect-tool-extension/build/

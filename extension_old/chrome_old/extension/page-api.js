@@ -22,6 +22,6 @@ export function checkSelector(id) {
 }
 
 export function selectorGraph() {
-  const str = 'JSON.stringify(window.__RESELECT_TOOLS__.selectorGraph())';
+  const str = 'JSON.stringify(window.__RESELECT_TOOLS__.getAllGoodSelectorsTableData())';
   return evalPromise(str);
 }
