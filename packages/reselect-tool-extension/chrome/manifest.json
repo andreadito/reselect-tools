@@ -1,0 +1,14 @@
+{
+  "name": "ReselectTool",
+  "version": "1.0",
+  "manifest_version": 2,
+  "devtools_page": "devtools.html",
+  "permissions": [
+    "tabs",
+    "storage",
+    "http://*/*",
+    "https://*/*",
+    "<all_urls>"
+  ],
+  "content_security_policy": "connect-src 'self'; default-src 'self'; script-src 'self'; style-src * 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:;"
+}

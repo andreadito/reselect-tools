@@ -1,27 +1,47 @@
-import { createSelector } from 'reselect'
-
-let _getState = null
-let _allSelectors = new Set()
-
+let _getState = null;
+let _allSelectors = new Set();
 
 const _isFunction = (func) => typeof func === 'function'
-
-/*
- * This function is only exported for legacy purposes.
- * It will be removed in future versions.
- *
- */
-export function createSelectorWithDependencies(...args) {
-  return createSelector(...args)
-}
 
 const _isSelector = (selector) => (selector && selector.resultFunc) || _isFunction(selector)
 
 const _addSelector = (selector) => {
-  _allSelectors.add(selector)
+  _allSelectors.add(selector);
+}
 
-  const dependencies = selector.dependencies || []
-  dependencies.forEach(_addSelector)
+const _getSelectorName = (selector) => {
+  if (selector.selectorName) {
+    return selector.selectorName
+  }
+
+  if (selector.name) { // if it's a vanilla function, it will have a name.
+    return selector.name
+  }
+
+  return (selector.dependencies || []).reduce((base, dep) => {
+    return base
+  }, (selector.resultFunc ? selector.resultFunc : selector).toString())
+}
+
+const _getAllGoodSelectors = () => {
+  let listOfSelectorsWithProps = new Set();
+
+  _allSelectors.forEach((selector) => {
+    if(selector.prototype.constructor.toString().search('props') > 0) {
+      listOfSelectorsWithProps.add(selector);
+    }
+  })
+
+  const difference = (setA, setB) => {
+    let _difference = new Set(setA)
+    for (let elem of setB) {
+      _difference.delete(elem)
+    }
+    return _difference
+  }
+  const _allSelectorsWithoutProps = difference(_allSelectors, listOfSelectorsWithProps);
+
+  return _allSelectorsWithoutProps;
 }
 
 export function registerSelectors(selectors) {
@@ -53,127 +73,71 @@ export function checkSelector(selector) {
     throw new Error(`Selector ${selector} is not a function...has it been registered?`)
   }
 
-
-  const { dependencies = [], selectorName = null } = selector
+  const { dependencies = [] } = selector;
 
   const isNamed = typeof selectorName === 'string'
-  const recomputations = selector.recomputations ? selector.recomputations() : null
+  const recomputations = selector.recomputations ? selector.recomputations() : 0;
 
-  const ret = { dependencies, recomputations, isNamed, selectorName }
+  const ret = { dependencies, recomputations, isNamed, selectorName: _getSelectorName(selector) }
+  const extra = {};
+
   if (_getState) {
-    const extra = {}
-    const state = _getState()
+    const state = _getState();
 
-    try {
-      extra.inputs = dependencies.map((parentSelector) => parentSelector(state))
+    extra.output = async () => { return await selector(state) };
 
-      try {
-        extra.output = selector(state)
-      } catch (e) {
-        extra.error = `checkSelector: error getting output of selector ${selectorName}. The error was:\n${e}`
-      }
-    } catch (e) {
-      extra.error = `checkSelector: error getting inputs of selector ${selectorName}. The error was:\n${e}`
-    }
-
-    Object.assign(ret, extra)
+  } else {
+    extra.output = () => { console.log('state is not available') }
   }
 
-  return ret
+  Object.assign(ret, extra);
+
+  return ret;
+}
+
+export function getAllGoodSelectorsTableData() {
+  const tableData = [];
+  const onlyGoodSelector = _getAllGoodSelectors();
+
+  const mapSelectorToCell = (selectors = []) => {
+    return Array.from(selectors).map(selector => {
+
+      const selectorData = checkSelector(selector);
+
+      const {selectorName = 'noNameProvided', dependencies = [], recomputations = 0, output } = selectorData;
+
+      return {
+        name: selectorName,
+        dependencies: mapSelectorToCell(dependencies),
+        recomputations:  recomputations,
+        output: output,
+        selector: selector
+      }}
+    )
+  }
+
+  tableData.push(...mapSelectorToCell(onlyGoodSelector));
+
+  return tableData;
+}
+
+export function getState() {
+  if(_getState) {
+    return _getState();
+  }
 }
 
 export function getStateWith(stateGetter) {
   _getState = stateGetter
 }
 
-function _sumString(str) {
-  return Array.from(str.toString()).reduce((sum, char) => char.charCodeAt(0) + sum, 0)
-}
-
-const defaultSelectorKey = (selector) => {
-  if (selector.selectorName) {
-    return selector.selectorName
-  }
-
-  if (selector.name) { // if it's a vanilla function, it will have a name.
-    return selector.name
-  }
-
-  return (selector.dependencies || []).reduce((base, dep) => {
-    return base + _sumString(dep)
-  }, (selector.resultFunc ? selector.resultFunc : selector).toString())
-}
-
-export function selectorGraph(selectorKey = defaultSelectorKey) {
-  const graph = { nodes: {}, edges: [] }
-  const addToGraph = (selector) => {
-    const name = selectorKey(selector)
-    if (graph.nodes[name]) return
-    const { recomputations, isNamed } = checkSelector(selector)
-    graph.nodes[name] = {
-      recomputations,
-      isNamed,
-      name
-    }
-
-    let dependencies = selector.dependencies || []
-    dependencies.forEach((dependency) => {
-      addToGraph(dependency)
-      graph.edges.push({ from: name, to: selectorKey(dependency) })
-    })
-  }
-
-  for (let selector of _allSelectors) {
-    addToGraph(selector)
-  }
-
-  return graph
-}
-
-export function getAllGoodSelectors() {
-  let listOfSelectorsWithProps = new Set();
-
-  _allSelectors.forEach((selector) => {
-    if(selector.prototype.constructor.toString().search('props') > 0) {
-      listOfSelectorsWithProps.add(selector);
-    }
-  })
-
-  const difference = (setA, setB) => {
-    let _difference = new Set(setA)
-    for (let elem of setB) {
-      _difference.delete(elem)
-    }
-    return _difference
-  }
-  const _allSelectorsWithoutProps = difference(_allSelectors, listOfSelectorsWithProps);
-
-  return _allSelectorsWithoutProps;
-}
-
-export function getAllGoodSelectorsTableData() {
-  const tableData = [];
-  const mapSelectorToCell = (selectors = []) => {
-    return Array.from(selectors).map(selector => ({
-        name: selector.selectorName || '',
-        dependencies: mapSelectorToCell(selector.dependencies),
-        value: selector.value || '',
-        recomputations: selector.recomputations ? selector.recomputations() : null
-      })
-    )
-  }
-
-  tableData.push(...mapSelectorToCell(getAllGoodSelectors()));
-  return tableData;
-}
-
 // hack for devtools
 /* istanbul ignore if */
 if (typeof window !== 'undefined') {
   window.__RESELECT_TOOLS__ = {
-    selectorGraph,
     checkSelector,
-    getAllGoodSelectors,
-    getAllGoodSelectorsTableData
+    getAllGoodSelectorsTableData,
+    getState,
+    getStateWith
   }
 }
