@@ -6,8 +6,6 @@
   "permissions": [
     "tabs",
     "storage",
-    "http://*/*",
-    "https://*/*",
     "<all_urls>"
   ],
   "content_security_policy": "connect-src 'self'; default-src 'self'; script-src 'self'; style-src * 'unsafe-inline'; img-src 'self' data:;"

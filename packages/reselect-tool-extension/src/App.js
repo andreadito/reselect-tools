@@ -1,40 +1,70 @@
-import React, { Component } from 'react';
-import { TreeList, Column, SearchPanel, ColumnChooser, Scrolling, Paging, Pager, HeaderFilter } from 'devextreme-react/tree-list';
+import React, { Component } from 'react'
+import {
+  Column,
+  ColumnChooser,
+  HeaderFilter,
+  Pager,
+  Paging,
+  Scrolling,
+  SearchPanel,
+  TreeList
+} from 'devextreme-react/tree-list'
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
 
-  flatSelectors(selectors) {
-    return []
+    this.state = {
+      focusedRowKey: 1,
+      selectedRowOutput: ''
+    }
+    this.onFocusRowChange = this.onFocusRowChange.bind(this);
   }
 
-  renderSelector({ name, dependencies, value, recomputations }) {
-    return (<li>
-      <span>Name: {name}</span>
-      <div>
-        <span>Deps:</span>
-        <ul>{dependencies.map(dep => this.renderSelector(dep))}</ul>
-      </div>
-      <span>Value: {value}</span>
-      <span>Recomputations: {recomputations}</span>
-    </li>)
+  async onFocusRowChange(e) {
+    const selectorName = e.row.data && e.row.data.name;
+
+    const stringToEvaluate = `__RESELECT_TOOLS__.evaluateSelector('${selectorName}')`;
+
+
+    if(chrome) {
+      const { devtools: { inspectedWindow } } = chrome;
+      inspectedWindow.eval(stringToEvaluate, async (resultStr, err) => {
+        const result = await resultStr;
+
+        if (err && err.isException) {
+          console.error(err.value);
+          this.setState({
+            focusedRowKey: e.component.option('focusedRowKey'),
+          })
+        } else {
+          console.log(result);
+          this.setState({
+            focusedRowKey: e.component.option('focusedRowKey'),
+          })
+        }
+      });
+    }
   }
 
   render() {
     const { selectors } = this.props;
+
+    const { focusedRowKey, selectedRowOutput } = this.state;
     return (
       <div className="App" style={{backgroundColor: 'white', width: '100%'}}>
         <TreeList
           id="selectors"
           dataSource={selectors}
-          defaultExpandedRowKeys={[1]}
+          focusedRowKey={focusedRowKey}
           focusedRowEnabled={true}
-          focusedRowKey={0}
           showRowLines={true}
           showBorders={true}
           columnAutoWidth={true}
           autoExpandAll={false}
           itemsExpr="dependencies"
           dataStructure="tree"
+          onFocusedRowChanged={this.onFocusRowChange}
         >
           <HeaderFilter visible={true} />
           <Scrolling
@@ -51,11 +81,6 @@ export default class App extends Component {
             dataField="name"
             caption="Name" />
           <Column
-            dataField="output"
-            dataType="Output"
-            hidingPriority={1}
-          />
-          <Column
             dataField="recomputations"
             dataType="Recomputations"
             hidingPriority={2}
@@ -65,13 +90,8 @@ export default class App extends Component {
         {
           <div className="task-info">
             <div className="info">
-              <div className="task-subject"></div>
-              <span className="task-assigned"></span>
-              <span className="start-date"></span>
-            </div>
-            <div className="progress">
-              <span className="task-status"></span>
-              <span className="task-progress"></span>
+              <span>Output: </span>
+              <span>{selectedRowOutput}</span>
             </div>
           </div>
         }

@@ -1,5 +1,8 @@
+import { serialize } from 'serializr';
+
 let _getState = null;
 let _allSelectors = new Set();
+let _allSelectorsTableData = [];
 
 const _isFunction = (func) => typeof func === 'function'
 
@@ -81,15 +84,6 @@ export function checkSelector(selector) {
   const ret = { dependencies, recomputations, isNamed, selectorName: _getSelectorName(selector) }
   const extra = {};
 
-  if (_getState) {
-    const state = _getState();
-
-    extra.output = async () => { return await selector(state) };
-
-  } else {
-    extra.output = () => { console.log('state is not available') }
-  }
-
   Object.assign(ret, extra);
 
   return ret;
@@ -118,7 +112,32 @@ export function getAllGoodSelectorsTableData() {
 
   tableData.push(...mapSelectorToCell(onlyGoodSelector));
 
+  _allSelectorsTableData = tableData;
+
   return tableData;
+}
+
+export async function evaluateSelector(selectorName) {
+
+  console.log('evaluating...', selectorName);
+  if (!_allSelectorsTableData) {
+    getAllGoodSelectorsTableData();
+  }
+
+  const selector = _allSelectorsTableData
+    .filter(selector => selector.name === selectorName)[0]
+    .selector;
+
+  let result = null;
+  try {
+    // const selectorOutput = await selector(getState());
+    result = JSON.stringify({ "name":"John", "age":30, "car":null });
+  } catch(e) {
+    result = JSON.stringify({ "name":"John", "age":30, "car":null });
+  }
+  console.log(result);
+
+  return result;
 }
 
 export function getState() {
@@ -138,6 +157,7 @@ if (typeof window !== 'undefined') {
     checkSelector,
     getAllGoodSelectorsTableData,
     getState,
-    getStateWith
+    getStateWith,
+    evaluateSelector
   }
 }

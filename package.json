@@ -85,36 +85,56 @@
     "uglify-js": "^3.0.20"
   },
   "dependencies": {
-    "reselect": "4.0.0"
+    "reselect": "4.0.0",
+    "serialize-javascript": "2.1.2",
+    "serializr": "1.5.4"
   },
   "babel": {
-    "presets": ["es2015", "stage-0"],
+    "presets": [
+      "es2015",
+      "stage-0"
+    ],
     "plugins": [
-      ["transform-runtime", {
-        "regenerator": true
-      }]
+      [
+        "transform-runtime",
+        {
+          "regenerator": true
+        }
+      ]
     ],
     "env": {
       "commonjs": {
         "plugins": [
-          ["transform-es2015-modules-commonjs", { "loose": true }]
+          [
+            "transform-es2015-modules-commonjs",
+            {
+              "loose": true
+            }
+          ]
         ]
       },
       "umd": {
         "plugins": [
-          ["transform-es2015-modules-umd",
+          [
+            "transform-es2015-modules-umd",
             {
               "loose": true,
               "globals": {
                 "reselect": "Reselect"
               }
-            }]
+            }
+          ]
         ],
         "moduleId": "ReselectTools"
       },
       "test": {
         "plugins": [
-          ["transform-es2015-modules-commonjs", { "loose": true }]
+          [
+            "transform-es2015-modules-commonjs",
+            {
+              "loose": true
+            }
+          ]
         ]
       }
     }

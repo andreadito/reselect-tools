@@ -3150,6 +3150,16 @@ safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   resolved "http://norewrite_artifactory.corp.local/artifactory/api/npm/npm-virtual/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   integrity sha1-qVT5Ma66UI0we78Gnv8MAclhFvc=
 
+serialize-javascript@2.1.2:
+  version "2.1.2"
+  resolved "http://norewrite_artifactory.corp.local/artifactory/api/npm/npm-virtual/serialize-javascript/-/serialize-javascript-2.1.2.tgz#ecec53b0e0317bdc95ef76ab7074b7384785fa61"
+  integrity sha1-7OxTsOAxe9yV73arcHS3OEeF+mE=
+
+serializr@1.5.4:
+  version "1.5.4"
+  resolved "http://norewrite_artifactory.corp.local/artifactory/api/npm/npm-virtual/serializr/-/serializr-1.5.4.tgz#3ddf1cb7b4465c9c3f72bab0cbc41e09dbe50c33"
+  integrity sha1-Pd8ct7RGXJw/crqwy8QeCdvlDDM=
+
 set-blocking@^2.0.0:
   version "2.0.0"
   resolved "http://norewrite_artifactory.corp.local/artifactory/api/npm/npm-virtual/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
