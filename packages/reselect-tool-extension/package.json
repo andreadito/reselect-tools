@@ -4,9 +4,9 @@
   "description": "",
   "main": "",
   "scripts": {
-    "build:chrome": "cpx 'chrome/**/*.{html,js,json}' build",
+    "build:chrome": "cpx 'chrome/**/**/*' build",
     "build:app": "parcel build src/index.js -d build -o panel.js",
-    "watch:chrome": "cpx 'chrome/**/*.{html,js,json}' build --watch",
+    "watch:chrome": "cpx 'chrome/**/**/*' build --watch",
     "watch:app": "parcel watch src/index.js -d build -o panel.js",
     "build": "concurrently 'yarn build:chrome' 'yarn build:app'",
     "watch": "concurrently 'yarn watch:chrome' 'yarn watch:app'"
@@ -18,16 +18,12 @@
     "devextreme-react": "19.2.5",
     "react": "16.12.0",
     "react-dom": "16.12.0",
+    "react-json-print": "0.1.1",
     "serialize-javascript": "2.1.2"
   },
   "devDependencies": {
-    "babel-core": "^7.0.0-beta.3",
-    "babel-plugin-transform-runtime": "^7.0.0-beta.3",
-    "babel-polyfill": "^7.0.0-beta.3",
     "concurrently": "5.1.0",
-    "core-js": "3.6.4",
     "cpx": "1.5.0",
-    "parcel-bundler": "1.12.4",
-    "regenerator-runtime": "0.13.3"
+    "parcel-bundler": "1.12.4"
   }
 }

@@ -3,7 +3,6 @@ let loadCheckInterval;
 
 const checkForDevtools = cb => chrome.devtools.inspectedWindow.eval('!!(Object.keys(window.__RESELECT_TOOLS__ || {}).length)', cb);
 
-
 function onCheck(pageHasDevtools) {
   if (!pageHasDevtools || panelCreated) {
     return;

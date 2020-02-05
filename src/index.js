@@ -1,5 +1,3 @@
-import { serialize } from 'serializr';
-
 let _getState = null;
 let _allSelectors = new Set();
 let _allSelectorsTableData = [];
@@ -94,13 +92,14 @@ export function getAllGoodSelectorsTableData() {
   const onlyGoodSelector = _getAllGoodSelectors();
 
   const mapSelectorToCell = (selectors = []) => {
-    return Array.from(selectors).map(selector => {
+    return Array.from(selectors).map((selector, index) => {
 
       const selectorData = checkSelector(selector);
 
       const {selectorName = 'noNameProvided', dependencies = [], recomputations = 0, output } = selectorData;
 
       return {
+        key: `SelectorKey_${index}_${selectorName}`,
         name: selectorName,
         dependencies: mapSelectorToCell(dependencies),
         recomputations:  recomputations,
@@ -120,6 +119,7 @@ export function getAllGoodSelectorsTableData() {
 export async function evaluateSelector(selectorName) {
 
   console.log('evaluating...', selectorName);
+
   if (!_allSelectorsTableData) {
     getAllGoodSelectorsTableData();
   }
@@ -129,15 +129,15 @@ export async function evaluateSelector(selectorName) {
     .selector;
 
   let result = null;
-  try {
-    // const selectorOutput = await selector(getState());
-    result = JSON.stringify({ "name":"John", "age":30, "car":null });
-  } catch(e) {
-    result = JSON.stringify({ "name":"John", "age":30, "car":null });
-  }
-  console.log(result);
 
-  return result;
+  try {
+    const selectorOutput = await selector(getState());
+    result = { "output": selectorOutput }
+  } catch(e) {
+    result = { "output": e }
+  }
+
+  chrome.runtime.sendMessage("fnmfbbikgihobcdmolhalpfminilmfdf", { data: result });
 }
 
 export function getState() {

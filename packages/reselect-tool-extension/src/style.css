@@ -1,63 +1,31 @@
 #selectors {
-    height:80%
+    height:70%
 }
 
-.task-info {
-    font-family: Segoe UI;
-    height: 20%;
-    display: flex;
-    flex-wrap: nowrap;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.info {
-    display: flex;
-    flex-direction: column;
-}
-
-.task-subject {
-    line-height: 29px;
-    font-size: 18px;
-    font-weight: bold;
-}
-.progress {
-    display: flex;
-    flex-direction: column;
-    white-space: pre;
-    min-width: 105px;
-}
-.task-progress {
-    line-height: 42px;
-    font-size: 40px;
-    font-weight: bold;
-}
-
-.options {
-    margin-top: 20px;
+.row-info {
+    font-family: "Courier New";
+    font-size: 14px;
     padding: 20px;
-    background-color: rgba(191, 191, 191, 0.15);
-    position: relative;
+    height: 30%;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    overflow: scroll;
 }
 
-.caption {
-    font-size: 18px;
-    font-weight: 500;
+.app-controls {
+    padding: 10px;
+    background-color: #0c0c10;
+    display: flex;
 }
 
-.option {
-    margin-top: 10px;
-}
-
-.option > .dx-numberbox {
-    width: 200px;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.option > span {
+.app-control-button {
+    border-radius: 0;
+    border: 1px solid black;
+    background: greenyellow;
+    padding: 10px;
+    text-transform: uppercase;
     margin-right: 10px;
+}
+
+.app-control-button:active {
+    background-color: indianred;
 }
