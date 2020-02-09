@@ -40,8 +40,9 @@ export default class App extends Component {
     const {name = '', selector: { dependencies = []}} = e.row && e.row.data && e.row.data;
 
     const selectorName = name;
-    const input = dependencies.map(dep => dep.selectorName);
-
+    
+    const input = dependencies.map(dep => dep.selectorName || 'anonymous');
+    
     if(selectorName) {
       const stringToEvaluate = `__RESELECT_TOOLS__.evaluateSelector('${selectorName}', '${chrome.runtime.id}')`;
 
@@ -56,7 +57,11 @@ export default class App extends Component {
         if(chrome) {
           const { devtools: { inspectedWindow } } = chrome;
           inspectedWindow.eval(stringToEvaluate, (resultStr, err) => {
-            console.log(`RESELECT_TOOLS_EXTENSION - requested output value for': ${selectorName} `);
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(`RESELECT_TOOLS_EXTENSION - requested output value for': ${selectorName} `);
+            }
           });
         }
       })
@@ -82,7 +87,7 @@ export default class App extends Component {
   }
 
   refreshLatestSelectedSelector() {
-    if(this.state.selectedSelector.length > 0){
+    if(this.state.selectedRowName.length > 0){
       const stringToEvaluate = `__RESELECT_TOOLS__.evaluateSelector('${this.state.selectedRowName}', '${chrome.runtime.id}')`;
       if(chrome) {
         const { devtools: { inspectedWindow } } = chrome;
@@ -104,7 +109,7 @@ export default class App extends Component {
   render() {
     const { selectors } = this.state;
 
-    const { focusedRowKey, selectedRowOutput, selectedRowInput, selectedRowSelector } = this.state;
+    const { focusedRowKey, selectedRowOutput, selectedRowInput } = this.state;
 
     if(selectors.length > 0) {
       return (

@@ -1,3 +1,6 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 let _getState = null;
 let _allSelectors = new Set();
 let _allSelectorsTableData = [];
