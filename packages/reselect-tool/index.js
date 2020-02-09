@@ -27,8 +27,9 @@ const _getSelectorName = (selector) => {
 const _getAllGoodSelectors = () => {
   let listOfSelectorsWithProps = new Set();
 
+  // TODO: use args
   _allSelectors.forEach((selector) => {
-    if(selector.prototype.constructor.toString().search('props') > 0) {
+    if(selector && selector.toString().search('props') > 0) {
       listOfSelectorsWithProps.add(selector);
     }
   });
@@ -50,7 +51,7 @@ export function registerSelectors(selectors) {
       selector.selectorName = name;
       _addSelector(selector)
     }
-  })
+  });
 }
 
 export function reset() {
@@ -96,14 +97,17 @@ export function getAllGoodSelectorsTableData() {
 
       const {selectorName = 'noNameProvided', dependencies = [], recomputations = 0, output } = selectorData;
 
-      return {
+      const result = {
         key: `SelectorKey_${index}_${selectorName}`,
         name: selectorName,
         dependencies: mapSelectorToCell(dependencies),
         recomputations:  recomputations,
         output: output,
         selector: selector
-      }}
+      };
+
+      return result;
+    }
     )
   };
 
@@ -116,15 +120,14 @@ export function getAllGoodSelectorsTableData() {
 
 export async function evaluateSelector(selectorName, chromeRuntimeId) {
 
-  console.log('RESELECT:TOOLS - Evaluating...', selectorName);
-
   if (!_allSelectorsTableData) {
     getAllGoodSelectorsTableData();
   }
 
-  const selector = _allSelectorsTableData
-    .filter(selector => selector.name === selectorName)[0]
-    .selector;
+  const results = _allSelectorsTableData
+    .filter(selector => selector.name === selectorName);
+
+  const selector = results && results[0] && results[0].selector;
 
   let result = null;
 
@@ -135,8 +138,9 @@ export async function evaluateSelector(selectorName, chromeRuntimeId) {
     result = { "output": e }
   }
 
-  // TODO: replace hardcoded value with chromeRuntimeId
-  chrome.runtime.sendMessage("fnmfbbikgihobcdmolhalpfminilmfdf", { data: result });
+  console.log(`RESELECT:TOOLS - Sending Data to RE-SELECT Extension: ${chromeRuntimeId}`, result);
+
+  chrome.runtime.sendMessage(chromeRuntimeId, { data: result });
 }
 
 export function getState() {
