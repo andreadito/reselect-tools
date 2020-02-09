@@ -6,6 +6,6 @@
   "author": "Andrea Dito <andrea.dito@gmail.com>",
   "license": "MIT",
   "bin": {
-    "reselect-tool": "packages/reselect-tool-cli/generateSelectorsIndex.js"
+    "reselect-tools": "packages/reselect-tool-cli/generateSelectorsIndex.js"
   }
 }
