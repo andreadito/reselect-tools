@@ -1,4 +1,278 @@
-parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcelRequire,u="function"==typeof require&&require;function f(t,n){if(!r[t]){if(!e[t]){var i="function"==typeof parcelRequire&&parcelRequire;if(!n&&i)return i(t,!0);if(o)return o(t,!0);if(u&&"string"==typeof t)return u(t);var c=new Error("Cannot find module '"+t+"'");throw c.code="MODULE_NOT_FOUND",c}p.resolve=function(r){return e[t][1][r]||r},p.cache={};var l=r[t]=new f.Module(t);e[t][0].call(l.exports,p,l,l.exports,this)}return r[t].exports;function p(e){return f(p.resolve(e))}}f.isParcelRequire=!0,f.Module=function(e){this.id=e,this.bundle=f,this.exports={}},f.modules=e,f.cache=r,f.parent=o,f.register=function(r,t){e[r]=[function(e,r){r.exports=t},{}]};for(var c=0;c<t.length;c++)try{f(t[c])}catch(e){i||(i=e)}if(t.length){var l=f(t[t.length-1]);"object"==typeof exports&&"undefined"!=typeof module?module.exports=l:"function"==typeof define&&define.amd?define(function(){return l}):n&&(this[n]=l)}if(parcelRequire=f,i)throw i;return f}({"Focm":[function(require,module,exports) {
-"use strict";function e(e,t,r,n,o,a,c){try{var i=e[a](c),u=i.value}catch(l){return void r(l)}i.done?t(u):Promise.resolve(u).then(n,o)}function t(t){return function(){var r=this,n=arguments;return new Promise(function(o,a){var c=t.apply(r,n);function i(t){e(c,o,a,i,u,"next",t)}function u(t){e(c,o,a,i,u,"throw",t)}i(void 0)})}}function r(e){return a(e)||o(e)||n()}function n(){throw new TypeError("Invalid attempt to spread non-iterable instance")}function o(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}function a(e){if(Array.isArray(e)){for(var t=0,r=new Array(e.length);t<e.length;t++)r[t]=e[t];return r}}Object.defineProperty(exports,"__esModule",{value:!0}),exports.registerSelectors=v,exports.reset=m,exports.checkSelector=y,exports.getAllGoodSelectorsTableData=h,exports.evaluateSelector=S,exports.getState=w,exports.getStateWith=b;var c=null,i=new Set,u=[],l=function(e){return"function"==typeof e},s=function(e){return e&&e.resultFunc||l(e)},f=function(e){i.add(e)},p=function(e){return e.selectorName?e.selectorName:e.name?e.name:(e.dependencies||[]).reduce(function(e,t){return e},(e.resultFunc?e.resultFunc:e).toString())},d=function(){var e=new Set;i.forEach(function(t){t.prototype.constructor.toString().search("props")>0&&e.add(t)});return function(e,t){var r=new Set(e),n=!0,o=!1,a=void 0;try{for(var c,i=t[Symbol.iterator]();!(n=(c=i.next()).done);n=!0){var u=c.value;r.delete(u)}}catch(l){o=!0,a=l}finally{try{n||null==i.return||i.return()}finally{if(o)throw a}}return r}(i,e)};function v(e){Object.keys(e).forEach(function(t){var r=e[t];s(r)&&(r.selectorName=t,f(r))})}function m(){c=null,i=new Set}function y(e){if("string"==typeof e){var t=!0,r=!1,n=void 0;try{for(var o,a=i[Symbol.iterator]();!(t=(o=a.next()).done);t=!0){var c=o.value;if(c.selectorName===e){e=c;break}}}catch(d){r=!0,n=d}finally{try{t||null==a.return||a.return()}finally{if(r)throw n}}}if(!l(e))throw new Error("Selector ".concat(e," is not a function...has it been registered?"));var u=e.dependencies,s="string"==typeof selectorName,f={dependencies:void 0===u?[]:u,recomputations:e.recomputations?e.recomputations():0,isNamed:s,selectorName:p(e)};return Object.assign(f,{}),f}function h(){var e=[],t=d();return e.push.apply(e,r(function e(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return Array.from(t).map(function(t,r){var n=y(t),o=n.selectorName,a=void 0===o?"noNameProvided":o,c=n.dependencies,i=void 0===c?[]:c,u=n.recomputations,l=void 0===u?0:u,s=n.output;return{key:"SelectorKey_".concat(r,"_").concat(a),name:a,dependencies:e(i),recomputations:l,output:s,selector:t}})}(t))),u=e,e}function S(e,t){return g.apply(this,arguments)}function g(){return(g=t(regeneratorRuntime.mark(function e(t,r){var n,o,a;return regeneratorRuntime.wrap(function(e){for(;;)switch(e.prev=e.next){case 0:return console.log("RESELECT:TOOLS - Evaluating...",t),u||h(),n=u.filter(function(e){return e.name===t})[0].selector,o=null,e.prev=4,e.next=7,n(w());case 7:a=e.sent,o={output:a},e.next=14;break;case 11:e.prev=11,e.t0=e.catch(4),o={output:e.t0};case 14:chrome.runtime.sendMessage("fnmfbbikgihobcdmolhalpfminilmfdf",{data:o});case 15:case"end":return e.stop()}},e,null,[[4,11]])}))).apply(this,arguments)}function w(){if(c)return c()}function b(e){c=e}"undefined"!=typeof window&&(window.__RESELECT_TOOLS__={checkSelector:y,getAllGoodSelectorsTableData:h,getState:w,getStateWith:b,evaluateSelector:S});
-},{}]},{},["Focm"], null)
-//# sourceMappingURL=/index.js.map
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.registerSelectors = registerSelectors;
+exports.reset = reset;
+exports.checkSelector = checkSelector;
+exports.getAllGoodSelectorsTableData = getAllGoodSelectorsTableData;
+exports.evaluateSelector = evaluateSelector;
+exports.getState = getState;
+exports.getStateWith = getStateWith;
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+var _getState = null;
+
+var _allSelectors = new Set();
+
+var _allSelectorsTableData = [];
+
+var _isFunction = function _isFunction(func) {
+  return typeof func === 'function';
+};
+
+var _isSelector = function _isSelector(selector) {
+  return selector && selector.resultFunc || _isFunction(selector);
+};
+
+var _addSelector = function _addSelector(selector) {
+  _allSelectors.add(selector);
+};
+
+var _getSelectorName = function _getSelectorName(selector) {
+  if (selector.selectorName) {
+    return selector.selectorName;
+  }
+
+  if (selector.name) {
+    // if it's a vanilla function, it will have a name.
+    return selector.name;
+  }
+
+  return (selector.dependencies || []).reduce(function (base, dep) {
+    return base;
+  }, (selector.resultFunc ? selector.resultFunc : selector).toString());
+};
+
+var _getAllGoodSelectors = function _getAllGoodSelectors() {
+  var listOfSelectorsWithProps = new Set(); // TODO: use args
+
+  _allSelectors.forEach(function (selector) {
+    if (selector && selector.toString().search('props') > 0) {
+      listOfSelectorsWithProps.add(selector);
+    }
+  });
+
+  var difference = function difference(setA, setB) {
+    var _difference = new Set(setA);
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = setB[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var elem = _step.value;
+
+        _difference["delete"](elem);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    return _difference;
+  };
+
+  return difference(_allSelectors, listOfSelectorsWithProps);
+};
+
+function registerSelectors(selectors) {
+  Object.keys(selectors).forEach(function (name) {
+    var selector = selectors[name];
+
+    if (_isSelector(selector)) {
+      selector.selectorName = name;
+
+      _addSelector(selector);
+    }
+  });
+}
+
+function reset() {
+  _getState = null;
+  _allSelectors = new Set();
+}
+
+function checkSelector(selector) {
+  if (typeof selector === 'string') {
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = _allSelectors[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var possibleSelector = _step2.value;
+
+        if (possibleSelector.selectorName === selector) {
+          selector = possibleSelector;
+          break;
+        }
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+          _iterator2["return"]();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+  }
+
+  if (!_isFunction(selector)) {
+    throw new Error("Selector ".concat(selector, " is not a function...has it been registered?"));
+  }
+
+  var _selector = selector,
+      _selector$dependencie = _selector.dependencies,
+      dependencies = _selector$dependencie === void 0 ? [] : _selector$dependencie;
+  var isNamed = typeof selectorName === 'string';
+  var recomputations = selector.recomputations ? selector.recomputations() : 0;
+  var ret = {
+    dependencies: dependencies,
+    recomputations: recomputations,
+    isNamed: isNamed,
+    selectorName: _getSelectorName(selector)
+  };
+  var extra = {};
+  Object.assign(ret, extra);
+  return ret;
+}
+
+function getAllGoodSelectorsTableData() {
+  var tableData = [];
+
+  var onlyGoodSelector = _getAllGoodSelectors();
+
+  var mapSelectorToCell = function mapSelectorToCell() {
+    var selectors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    return Array.from(selectors).map(function (selector, index) {
+      var selectorData = checkSelector(selector);
+      var _selectorData$selecto = selectorData.selectorName,
+          selectorName = _selectorData$selecto === void 0 ? 'noNameProvided' : _selectorData$selecto,
+          _selectorData$depende = selectorData.dependencies,
+          dependencies = _selectorData$depende === void 0 ? [] : _selectorData$depende,
+          _selectorData$recompu = selectorData.recomputations,
+          recomputations = _selectorData$recompu === void 0 ? 0 : _selectorData$recompu,
+          output = selectorData.output;
+      var result = {
+        key: "SelectorKey_".concat(index, "_").concat(selectorName),
+        name: selectorName,
+        dependencies: mapSelectorToCell(dependencies),
+        recomputations: recomputations,
+        output: output,
+        selector: selector
+      };
+      return result;
+    });
+  };
+
+  tableData.push.apply(tableData, _toConsumableArray(mapSelectorToCell(onlyGoodSelector)));
+  _allSelectorsTableData = tableData;
+  return tableData;
+}
+
+function evaluateSelector(_x, _x2) {
+  return _evaluateSelector.apply(this, arguments);
+}
+
+function _evaluateSelector() {
+  _evaluateSelector = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee(selectorName, chromeRuntimeId) {
+    var results, selector, result, selectorOutput;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            if (!_allSelectorsTableData) {
+              getAllGoodSelectorsTableData();
+            }
+
+            results = _allSelectorsTableData.filter(function (selector) {
+              return selector.name === selectorName;
+            });
+            selector = results && results[0] && results[0].selector;
+            result = null;
+            _context.prev = 4;
+            _context.next = 7;
+            return selector(getState());
+
+          case 7:
+            selectorOutput = _context.sent;
+            result = {
+              "output": selectorOutput
+            };
+            _context.next = 14;
+            break;
+
+          case 11:
+            _context.prev = 11;
+            _context.t0 = _context["catch"](4);
+            result = {
+              "output": _context.t0
+            };
+
+          case 14:
+            console.log("RESELECT:TOOLS - Sending Data to RE-SELECT Extension: ".concat(chromeRuntimeId), result);
+            chrome.runtime.sendMessage(chromeRuntimeId, {
+              data: result
+            });
+
+          case 16:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[4, 11]]);
+  }));
+  return _evaluateSelector.apply(this, arguments);
+}
+
+function getState() {
+  if (_getState) {
+    return _getState();
+  }
+}
+
+function getStateWith(stateGetter) {
+  _getState = stateGetter;
+}
+
+if (typeof window !== 'undefined') {
+  window.__RESELECT_TOOLS__ = {
+    checkSelector: checkSelector,
+    getAllGoodSelectorsTableData: getAllGoodSelectorsTableData,
+    getState: getState,
+    getStateWith: getStateWith,
+    evaluateSelector: evaluateSelector
+  };
+}
