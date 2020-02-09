@@ -17,7 +17,7 @@ const boxenOptions = {
     borderColor: "green",
     color: "red"
 };
-const configPath = findUp.sync(['.relocator', 'relocator.config.json']);
+const configPath = findUp.sync(['.reselect', 'reselect.config.json']);
 const config = configPath ? JSON.parse(fs.readFileSync(configPath)) : {};
 
 const {src, out, tsConfigPath} = yargs
