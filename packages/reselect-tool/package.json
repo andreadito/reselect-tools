@@ -1,0 +1,14 @@
+{
+  "name": "reselect-tool",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "watch": "parcel watch index.js -d lib -o index.js",
+    "build": "parcel build index.js -d lib -o index.js"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}

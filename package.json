@@ -1,0 +1,8 @@
+{
+  "name": "reselect-tools",
+  "version": "1.0.0",
+  "main": "packages/reselect-tool/lib/index.js",
+  "repository": "https://github.com/andreadito/reselect-tools.git",
+  "author": "Andrea Dito <andrea.dito@gmail.com>",
+  "license": "MIT"
+}

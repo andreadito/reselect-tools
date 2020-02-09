@@ -1,0 +1,124 @@
+{
+  "name": "reselect-tools",
+  "version": "0.0.7",
+  "description": "Selector Debugging Tools for Reselect.",
+  "main": "lib/index.js",
+  "jsnext:main": "es/index.js",
+  "files": [
+    "lib",
+    "src",
+    "dist",
+    "es"
+  ],
+  "scripts": {
+    "compile:commonjs": "better-npm-run compile:commonjs",
+    "compile:umdmin": "uglifyjs dist/reselect-tools.js -mt -o dist/reselect-tools.min.js",
+    "compile:umd": "better-npm-run compile:umd",
+    "compile:es": "babel -d es/ src/",
+    "compile": "npm run compile:commonjs && npm run compile:umd && npm run compile:umdmin && npm run compile:es",
+    "prepublish": "npm run compile",
+    "test": "better-npm-run test",
+    "test:cov": "better-npm-run test:cov"
+  },
+  "betterScripts": {
+    "compile:commonjs": {
+      "command": "babel -d lib/ src/",
+      "env": {
+        "NODE_ENV": "commonjs"
+      }
+    },
+    "compile:umd": {
+      "command": "mkdirp dist/ && babel -o dist/reselect-tools.js src/",
+      "env": {
+        "NODE_ENV": "umd"
+      }
+    }
+  },
+  "keywords": [
+    "redux",
+    "reselect"
+  ],
+  "authors": [
+    "Sam Kortchmar"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skortchmark9/reselect-tools"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-core": "6.26.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.7.4",
+    "babel-plugin-transform-es2015-modules-umd": "^6.6.5",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-polyfill": "6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-stage-0": "6.24.1",
+    "babel-register": "^6.7.2",
+    "better-npm-run": "0.0.8",
+    "chai": "^3.0.0",
+    "codecov.io": "^0.1.6",
+    "coveralls": "^2.11.4",
+    "mkdirp": "^0.5.1",
+    "mocha": "^2.2.5",
+    "ncp": "^2.0.0",
+    "nyc": "^6.4.0",
+    "opn-cli": "^3.1.0",
+    "uglify-js": "^3.0.20"
+  },
+  "dependencies": {
+    "reselect": "4.0.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-0"
+    ],
+    "plugins": [
+      [
+        "transform-runtime",
+        {
+          "regenerator": true
+        }
+      ]
+    ],
+    "env": {
+      "commonjs": {
+        "plugins": [
+          [
+            "transform-es2015-modules-commonjs",
+            {
+              "loose": true
+            }
+          ]
+        ]
+      },
+      "umd": {
+        "plugins": [
+          [
+            "transform-es2015-modules-umd",
+            {
+              "loose": true,
+              "globals": {
+                "reselect": "Reselect"
+              }
+            }
+          ]
+        ],
+        "moduleId": "ReselectTools"
+      },
+      "test": {
+        "plugins": [
+          [
+            "transform-es2015-modules-commonjs",
+            {
+              "loose": true
+            }
+          ]
+        ]
+      }
+    }
+  }
+}
