@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Locate all your re-select selectors",
   "main": "generateSelectorsIndex.js",
-  "bin": {
-    "re-locator": "./generateSelectorsIndex.js"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,7 +12,7 @@
     "re-locator"
   ],
   "author": "Andrea Dito",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "boxen": "4.2.0",
     "chalk": "3.0.0",

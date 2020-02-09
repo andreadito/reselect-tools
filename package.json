@@ -4,5 +4,8 @@
   "main": "packages/reselect-tool/lib/index.js",
   "repository": "https://github.com/andreadito/reselect-tools.git",
   "author": "Andrea Dito <andrea.dito@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "bin": {
+    "reselect-tool": "packages/reselect-tool-cli/generateSelectorsIndex.js"
+  }
 }

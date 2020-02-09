@@ -2,7 +2,7 @@
   "name": "reselect-tool",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "",
+  "author": "Andrea Dito",
   "license": "MIT",
   "scripts": {
     "watch": "parcel watch index.js -d lib -o index.js",
