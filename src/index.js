@@ -116,9 +116,9 @@ export function getAllGoodSelectorsTableData() {
   return tableData;
 }
 
-export async function evaluateSelector(selectorName) {
+export async function evaluateSelector(selectorName, chromeRuntimeId) {
 
-  console.log('evaluating...', selectorName);
+  console.log('RESELECT:TOOLS - Evaluating...', selectorName);
 
   if (!_allSelectorsTableData) {
     getAllGoodSelectorsTableData();
@@ -137,6 +137,7 @@ export async function evaluateSelector(selectorName) {
     result = { "output": e }
   }
 
+  // replace hardcoded value with chromeRuntimeId
   chrome.runtime.sendMessage("fnmfbbikgihobcdmolhalpfminilmfdf", { data: result });
 }
 
@@ -150,8 +151,6 @@ export function getStateWith(stateGetter) {
   _getState = stateGetter
 }
 
-// hack for devtools
-/* istanbul ignore if */
 if (typeof window !== 'undefined') {
   window.__RESELECT_TOOLS__ = {
     checkSelector,
