@@ -37,40 +37,44 @@ export default class App extends Component {
   }
 
   onFocusRowChange(e) {
-    const {name = '', selector: { dependencies = []}} = e.row && e.row.data && e.row.data;
+    if (e.row && e.row.data) {
 
-    const selectorName = name;
-    
-    const input = dependencies.map(dep => dep.selectorName || 'anonymous');
-    
-    if(selectorName) {
-      const stringToEvaluate = `__RESELECT_TOOLS__.evaluateSelector('${selectorName}', '${chrome.runtime.id}')`;
+      const {name, selector: { dependencies = []}} = e.row.data;
 
-      // TODO: Print Selector Code
-      this.setState({
-        focusedRowKey: e.component.option('focusedRowKey'),
-        selectedRowName: selectorName,
-        selectedRowInput: input,
-        selectedRowSelector: ''
-      }, () => {
+      const selectorName = name || '';
 
-        if(chrome) {
-          const { devtools: { inspectedWindow } } = chrome;
-          inspectedWindow.eval(stringToEvaluate, (resultStr, err) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(`RESELECT_TOOLS_EXTENSION - requested output value for': ${selectorName} `);
-            }
-          });
-        }
-      })
+      const input = dependencies.map(dep => dep.selectorName || 'anonymous');
+
+      if(selectorName) {
+        const stringToEvaluate = `__RESELECT_TOOLS__.evaluateSelector('${selectorName}', '${chrome.runtime.id}')`;
+
+        // TODO: Print Selector Code
+        this.setState({
+          focusedRowKey: e.component.option('focusedRowKey'),
+          selectedRowName: selectorName,
+          selectedRowInput: input,
+          selectedRowSelector: ''
+        }, () => {
+
+          if(chrome) {
+            const { devtools: { inspectedWindow } } = chrome;
+            inspectedWindow.eval(stringToEvaluate, (resultStr, err) => {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(`RESELECT_TOOLS_EXTENSION - requested output value for': ${selectorName} `);
+              }
+            });
+          }
+        })
+      }
+      else {
+        this.setState({
+          focusedRowKey: e.component.option('focusedRowKey'),
+        })
+      }
     }
-    else {
-      this.setState({
-        focusedRowKey: e.component.option('focusedRowKey'),
-      })
-    }
+
   }
   
   refreshAll() {
