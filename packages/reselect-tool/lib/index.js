@@ -51,7 +51,6 @@ var _getSelectorName = function _getSelectorName(selector) {
   }
 
   if (selector.name) {
-    // if it's a vanilla function, it will have a name.
     return selector.name;
   }
 

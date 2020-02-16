@@ -18,7 +18,7 @@ const _getSelectorName = (selector) => {
     return selector.selectorName
   }
 
-  if (selector.name) { // if it's a vanilla function, it will have a name.
+  if (selector.name) {
     return selector.name
   }
 

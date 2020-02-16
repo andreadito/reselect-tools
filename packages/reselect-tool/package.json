@@ -5,14 +5,12 @@
   "author": "Andrea Dito",
   "license": "MIT",
   "scripts": {
-    "watch": "parcel watch index.js -d lib -o index.js",
     "build": "babel index.js -d lib"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
-    "parcel-bundler": "^1.12.4"
+    "@babel/preset-env": "^7.8.4"
   },
   "babel": {
     "presets": [

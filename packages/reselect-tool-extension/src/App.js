@@ -96,10 +96,10 @@ export default class App extends Component {
     }
   }
 
-  getTotalRecomputation(selectors) {
+  getTotalRecomputations(selectors) {
     if(selectors.length > 0) {
       return selectors.reduce((acc, selector) => {
-        return acc + selector.recomputations + this.getTotalRecomputation(selector.dependencies)
+        return acc + selector.recomputations + this.getTotalRecomputations(selector.dependencies)
       }, 0);
     } else {
       return 0
@@ -161,7 +161,7 @@ export default class App extends Component {
               </div>
               <div className="info">
                 <h3>Total Recomputations:</h3>
-                <p>{this.getTotalRecomputation(selectors)}</p>
+                <p>{this.getTotalRecomputations(selectors)}</p>
               </div>
               <div className={'app-controls'}>
                 <button className={'app-control-button'} onClick={this.refreshLatestSelectedSelector}> 👉 Refresh Selector</button>
