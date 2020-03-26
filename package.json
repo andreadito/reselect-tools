@@ -1,11 +1,11 @@
 {
   "name": "reselect-tools",
   "version": "1.0.0",
-  "main": "packages/reselect-tool/lib/index.js",
+  "main": "packages/reselect-tools/lib/index.js",
   "repository": "https://github.com/andreadito/reselect-tools.git",
   "author": "Andrea Dito <andrea.dito@gmail.com>",
   "license": "MIT",
   "bin": {
-    "reselect-tools": "packages/reselect-tool-cli/lib/index.js"
+    "reselect-tools": "packages/reselect-tools-cli/lib/index.js"
   }
 }

@@ -6,6 +6,6 @@ es
 .vscode
 .idea
 build
-!/packages/reselect-tool-extension/build/
+!/packages/reselect-tools-extension/build/
 *.log
 .cache/
